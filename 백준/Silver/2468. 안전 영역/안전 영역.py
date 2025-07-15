@@ -1,39 +1,47 @@
-import sys
 from collections import deque
+import sys
+N = int(sys.stdin.readline())
+data = [list(map(int,sys.stdin.readline().rstrip().split())) for _ in range(N)]
 
-input = sys.stdin.readline
 
-N = int(input())
-data = [list(map(int, input().split())) for _ in range(N)]
-max_height = max(map(max, data))
+dx = [1, 0, -1, 0]
+dy = [0, 1, 0, -1]
+def func(h):
+    is_visited = [[False] * N for _ in range(N)]
+    for i in range(N):
+        for j in range(N):
+            if data[i][j] <= h :
+                is_visited[i][j] = True
+    def bfs(x, y) :
+        is_visited[x][y] = True
+        q = deque()
+        q.append((x, y))
 
-# 이동 방향: 상하좌우
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+        while q:
+            x, y = q.popleft()
 
-def bfs(x, y, h, visited):
-    q = deque()
-    q.append((x, y))
-    visited[x][y] = True
+            for dir in range(4): 
+                nx, ny = x + dx[dir], y + dy[dir]
 
-    while q:
-        cx, cy = q.popleft()
-        for d in range(4):
-            nx, ny = cx + dx[d], cy + dy[d]
-            if 0 <= nx < N and 0 <= ny < N:
-                if not visited[nx][ny] and data[nx][ny] > h:
-                    visited[nx][ny] = True
-                    q.append((nx, ny))
-
-result = 0
-for h in range(0, max_height + 1):
-    visited = [[False] * N for _ in range(N)]
+                if nx < 0 or nx >= N or ny < 0 or ny >= N:
+                    continue
+                if is_visited[nx][ny] or data[nx][ny] <= h:
+                    continue
+                
+                is_visited[nx][ny] = True
+                q.append((nx, ny))
+    
     count = 0
     for i in range(N):
         for j in range(N):
-            if not visited[i][j] and data[i][j] > h:
-                bfs(i, j, h, visited)
+            if not is_visited[i][j]:
+                bfs(i,j)
                 count += 1
-    result = max(result, count)
+    
+    return count
 
-print(result)
+max_height = max(map(max, data))
+max_area = 0;
+for rain in range(0,max_height+1):
+    max_area = max(max_area, func(rain))
+print(max_area)
