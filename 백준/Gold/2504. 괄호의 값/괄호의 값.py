@@ -52,10 +52,7 @@ def main():
                     ans += val_cnt
                 stack.pop()
                 val_cnt //= closer[s]
-    if not stack.is_empty():
-        print(0)
-        return
-    print(ans)
+    print(ans) if stack.is_empty() else print(0)
 
 if __name__ == "__main__":
     main()
