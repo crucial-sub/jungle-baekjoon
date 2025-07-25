@@ -1,7 +1,7 @@
 from collections import defaultdict
 import sys
-sys.setrecursionlimit(10**4)
 input = sys.stdin.readline
+sys.setrecursionlimit(10**6)
 
 class BinaryNode:
     def __init__(self, data=None):
@@ -13,18 +13,25 @@ class BinarySearchTree:
     def __init__(self):
         self.root = None
 
-    # --- 삽입 메서드 ---
-    def insert(self, data):
-        self.root = self._insert_recursive(self.root, data)
-
-    def _insert_recursive(self, node, data):
-        if node is None:
-            return BinaryNode(data)
-        if data < node.data:
-            node.left = self._insert_recursive(node.left, data)
-        elif data > node.data:
-            node.right = self._insert_recursive(node.right, data)
-        return node
+    def inser_iter(self, node_val):
+        node = BinaryNode(node_val)
+        if not self.root:
+            self.root = node
+        else:
+            cur = self.root
+            while True:
+                if node.data < cur.data:
+                    if cur.left:
+                        cur = cur.left
+                    else:
+                        cur.left = node
+                        break
+                elif node.data > cur.data:
+                    if cur.right:
+                        cur = cur.right
+                    else:
+                        cur.right = node      
+                        break
 
     # 후위 순회 (왼쪽 -> 오른쪽 -> 루트)
     def postorder(self):
@@ -39,13 +46,12 @@ class BinarySearchTree:
 def main():
     # 처음에 트리 생성
     bst = BinarySearchTree()
+
     while True:
-        # try-except 구문으로 파일 끝까지 입력을 받아 bst에 insert
         try:
             node = int(input().rstrip())
-            bst.insert(node)
+            bst.inser_iter(node)
         except (ValueError, IndexError):
-            # 빈 줄을 읽거나 더 이상 읽을 내용이 없으면 루프 종료
             break
 
     bst.postorder()
