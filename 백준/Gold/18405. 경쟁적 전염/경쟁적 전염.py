@@ -4,18 +4,20 @@ input = sys.stdin.readline
 
 def main():
     N, K = map(int, input().split())
-    grid = [list(map(int,input().split())) for _ in range(N)]
+    grid = []
+    virus = []
+    for i in range(N):
+        r = list(map(int, input().split()))
+        grid.append(r)
+        for j in range(N):
+            if r[j] != 0:
+                virus.append((r[j],i,j))
+    virus = deque(sorted(virus))
+
     S, X, Y = map(int, input().split())
     if S == 0:
         print(grid[X-1][Y-1])
         return
-    virus = deque()
-
-    for k in range(1,K+1):
-        for i in range(N):
-            for j in range(N):
-                if grid[i][j] == k:
-                    virus.append((k,i,j))
                     
     visited = set()
     dx = [1, 0, -1, 0]
