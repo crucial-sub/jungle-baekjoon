@@ -20,21 +20,18 @@ def main():
             continue
         
         for j in range(1, len(dp[i])):
-            if (i-j) in tiny_stones:
-                dp[i][j] = float('inf')
+            jumps = []
+            if j-1 < len(dp[i-j]):
+                jumps.append(dp[i-j][j-1] + 1)
+            if j < len(dp[i-j]):
+                jumps.append(dp[i-j][j] + 1)
+            if j+1 < len(dp[i-j]):
+                jumps.append(dp[i-j][j+1] + 1)
+                
+            if jumps:
+                dp[i][j] = min(jumps)
             else:
-                l = []
-                if 0 <= j-1 < len(dp[i-j]):
-                    l.append(dp[i-j][j-1] + 1)
-                if 0 <= j < len(dp[i-j]):
-                    l.append(dp[i-j][j] + 1)
-                if 0 <= j+1 < len(dp[i-j]):
-                    l.append(dp[i-j][j+1] + 1)
-                if l:
-                    dp[i][j] = min(l)
-                else:
-                    dp[i][j] = float('inf')
-            j += 1
+                dp[i][j] = float('inf')
         
     print(min(dp[N]) if min(dp[N]) != float('inf') else -1)
     
