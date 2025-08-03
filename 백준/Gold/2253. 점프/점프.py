@@ -3,7 +3,7 @@ input = sys.stdin.readline
 
 def main():
     N, M = map(int,input().split())
-    tiny = {int(input()) for _ in range(M)}
+    tiny_stones = {int(input()) for _ in range(M)}
     dp = []
     for i in range(N+1):
         j = 0
@@ -14,15 +14,13 @@ def main():
         dp.append(r)
 
     dp[1][0] = 0
-    dp[2][1] = 1
 
     for i in range(2, N+1):
-        if i in tiny:
-            dp[i] = [float('inf')] * len(dp[i])
+        if i in tiny_stones:
             continue
-        j = 1
-        while (j)*(j+1)//2 < i:
-            if (i-j) in tiny:
+        
+        for j in range(1, len(dp[i])):
+            if (i-j) in tiny_stones:
                 dp[i][j] = float('inf')
             else:
                 l = []
