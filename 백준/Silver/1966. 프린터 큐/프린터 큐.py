@@ -7,21 +7,19 @@ def main():
     for _ in range(T):
         N, M = map(int, input().split());
         docs = list(map(int, input().split()));
-        prior = sorted(docs,reverse=True);
         docs_tuple = list(enumerate(docs));
-
-        prior_q = deque(prior)
+        docs.sort()
         docs_q = deque(docs_tuple);
         cnt = 0;
 
-        while(prior_q):
+        while(docs_q):
             doc = docs_q.popleft();
-            if doc[1] == prior_q[0]:
+            if doc[1] == docs[-1]:
                 cnt += 1;
                 if doc == docs_tuple[M]:
                     print(cnt);
                     break;
-                prior_q.popleft();
+                docs.pop();
             else:
                 docs_q.append(doc);
 
