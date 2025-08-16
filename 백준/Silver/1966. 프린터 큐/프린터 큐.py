@@ -3,27 +3,27 @@ import sys
 input = sys.stdin.readline
 
 def main():
-    T = int(input())
+    T = int(input());
     for _ in range(T):
-        N, M = map(int, input().split())
-        docs = list(map(int, input().split()))
-        sorted_docs = sorted(docs) # 우선순위로 정렬한 배열
-        enumerate_docs = list(enumerate(docs))
-        target = enumerate_docs[M]
+        N, M = map(int, input().split());
+        docs = list(map(int, input().split()));
+        prior = sorted(docs,reverse=True);
+        docs_tuple = list(enumerate(docs));
 
-        q = deque(enumerate_docs)
-        cnt = 0
+        prior_q = deque(prior)
+        docs_q = deque(docs_tuple);
+        cnt = 0;
 
-        while len(sorted_docs) > 0:
-            cur = q.popleft()
-            if cur[1] == sorted_docs[-1]:
-                cnt += 1
-                if cur == target:
-                    print(cnt)
-                    break
-                sorted_docs.pop()
+        while(prior_q):
+            doc = docs_q.popleft();
+            if doc[1] == prior_q[0]:
+                cnt += 1;
+                if doc == docs_tuple[M]:
+                    print(cnt);
+                    break;
+                prior_q.popleft();
             else:
-                q.append(cur)
+                docs_q.append(doc);
 
 if __name__ == "__main__":
     main()
