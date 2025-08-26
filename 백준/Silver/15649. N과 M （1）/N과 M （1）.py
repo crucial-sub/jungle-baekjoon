@@ -1,17 +1,14 @@
+from itertools import permutations
 import sys
-N, M = map(int, sys.stdin.readline().split())
-arr = [0] * M           # 현재 선택된 숫자를 저장할 리스트
-isused = [False] * (N+1)  # 1부터 n까지 사용 여부 표시
+input = sys.stdin.readline
 
-def func(k):
-    if k == M:  # m개를 모두 선택한 경우
-        print(*arr)
-        return
+def main():
+    # 1부터 N까지의 수를 M개 선택해서 나타낼 수 있는 수열을 모두 출력
+    N, M = map(int, input().split());
 
-    for i in range(1, N+1):  # 1부터 n까지 숫자 중에서
-        if not isused[i]:    # 아직 사용하지 않은 수면
-            arr[k] = i
-            isused[i] = True
-            func(k + 1)      # 다음 자리 수 정하러 재귀 호출
-            isused[i] = False  # 백트래킹 (원상 복구)
-func(0)
+    for p in permutations(range(1,N+1),M):
+        print(*p);
+
+
+if __name__ == "__main__":
+    main()
