@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict,Counter
 
 def solution(want, number, discount):
     
@@ -10,9 +10,10 @@ def solution(want, number, discount):
         if set(want) != set(discounts):
             continue
         
-        cnt_discount = defaultdict(int)
-        for d in discounts:
-            cnt_discount[d] += 1
+        # cnt_discount = defaultdict(int)
+        # for d in discounts:
+        #     cnt_discount[d] += 1
+        cnt_discount = Counter(discounts)
         
         passed = True
         for j,w in enumerate(want):
