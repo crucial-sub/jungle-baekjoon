@@ -24,5 +24,4 @@ def solution(want, number, discount):
         if passed:
             answer += 1
         
-        
     return answer
